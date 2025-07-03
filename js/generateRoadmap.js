@@ -133,8 +133,18 @@ async function generateRoadmap(targetCareer) {
             data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts.length > 0 &&
             data.candidates[0].content.parts[0].text) {
 
-            const roadmapString = data.candidates[0].content.parts[0].text;
-            console.log('Roadmap String from API:', roadmapString);
+            let roadmapString = data.candidates[0].content.parts[0].text; // Diubah ke let
+            console.log('Raw Roadmap String from API:', roadmapString);
+
+            // Hapus ```json di awal dan ``` di akhir jika ada
+            if (roadmapString.startsWith("```json")) {
+                roadmapString = roadmapString.substring(7);
+            }
+            if (roadmapString.endsWith("```")) {
+                roadmapString = roadmapString.substring(0, roadmapString.length - 3);
+            }
+            roadmapString = roadmapString.trim();
+            console.log('Cleaned Roadmap String for Parsing:', roadmapString);
 
             try {
                 const roadmap = JSON.parse(roadmapString);
@@ -142,8 +152,8 @@ async function generateRoadmap(targetCareer) {
                 return roadmap;
             } catch (parseError) {
                 console.error('Failed to parse JSON from API response:', parseError);
-                console.error('Raw string that failed to parse:', roadmapString);
-                throw new Error('AI did not return valid JSON.');
+                console.error('Raw string that failed to parse (after cleaning attempt):', roadmapString); // Diperbarui lognya
+                throw new Error('AI did not return valid JSON, even after cleaning attempt.'); // Diperbarui pesannya
             }
         } else {
             console.error('Unexpected API response structure:', data);
