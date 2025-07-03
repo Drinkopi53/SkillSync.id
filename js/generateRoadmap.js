@@ -2,8 +2,8 @@
 // Fungsi ini akan menjadi inti dari SkillSync.id untuk menghasilkan peta jalan karier.
 
 // Placeholder untuk API Key dan Endpoint Gemini
-const GEMINI_API_KEY = 'MASUKKAN_API_KEY_ANDA_DI_SINI';
-const GEMINI_API_ENDPOINT = 'MASUKKAN_ENDPOINT_GEMINI_API_ANDA_DI_SINI'; // Contoh: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent'
+const GEMINI_API_KEY = 'AIzaSyA2gSCmXECTgKruVpW_woCjKl_AbST72k4';
+const GEMINI_API_ENDPOINT = 'AIzaSyA2gSCmXECTgKruVpW_woCjKl_AbST72k4'; // Contoh: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent'
 
 /**
  * Menghasilkan peta jalan karier menggunakan AI generatif.
