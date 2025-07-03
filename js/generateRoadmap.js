@@ -1,7 +1,7 @@
 // File js/generateRoadmap.js
 // Fungsi ini akan menjadi inti dari SkillSync.id untuk menghasilkan peta jalan karier.
 
-// Placeholder untuk API Key dan Endpoint Gemini
+// MASUKKAN API KEY DAN ENDPOINT GEMINI ANDA YANG VALID DAN AMAN DI SINI:
 const GEMINI_API_KEY = 'MASUKKAN_API_KEY_ANDA_DI_SINI';
 const GEMINI_API_ENDPOINT = 'MASUKKAN_ENDPOINT_GEMINI_API_ANDA_DI_SINI'; // Contoh: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent'
 
@@ -11,7 +11,6 @@ const GEMINI_API_ENDPOINT = 'MASUKKAN_ENDPOINT_GEMINI_API_ANDA_DI_SINI'; // Cont
  * @returns {Promise<Object|null>} Objek peta jalan karier atau null jika terjadi error.
  */
 async function generateRoadmap(targetCareer) {
-    // Langkah 2: Konstruksi Prompt Dinamis (akan diisi di langkah selanjutnya)
     const prompt = `
         Anda adalah seorang penasihat karier AI yang sangat ahli bernama SkillSync.
         Tugas Anda adalah membuat peta jalan karier yang detail dan actionable untuk seseorang yang ingin mencapai posisi: "${targetCareer}".
@@ -21,41 +20,41 @@ async function generateRoadmap(targetCareer) {
         1.  **Keterampilan Fondasi (foundation_skills)**: Identifikasi 5-7 keterampilan dasar paling krusial yang harus dikuasai.
         2.  **Keterampilan Lanjutan (advanced_skills)**: Identifikasi 5-7 keterampilan lanjutan atau spesialisasi yang relevan.
         3.  **Rekomendasi Kursus (course_recommendations)**: Berikan 2-4 rekomendasi kursus yang sangat spesifik untuk beberapa keterampilan kunci (baik fondasi maupun lanjutan). Untuk setiap kursus, sertakan:
-            *   `skill_related`: Nama skill yang diajarkan kursus tersebut.
-            *   `course_name`: Nama lengkap kursus.
-            *   `provider`: Penyedia kursus (misalnya, Coursera, Dicoding, edX, Udemy, freeCodeCamp, dll.).
-            *   `link`: URL langsung menuju kursus tersebut. Penting: Tambahkan parameter query '?ref=skillsyncid' di akhir setiap URL.
+            *   \`skill_related\`: Nama skill yang diajarkan kursus tersebut.
+            *   \`course_name\`: Nama lengkap kursus.
+            *   \`provider\`: Penyedia kursus (misalnya, Coursera, Dicoding, edX, Udemy, freeCodeCamp, dll.).
+            *   \`link\`: URL langsung menuju kursus tersebut. Penting: Tambahkan parameter query '?ref=skillsyncid' di akhir setiap URL.
         4.  **Ide Proyek Portofolio (portfolio_projects)**: Usulkan 3-4 ide proyek portofolio yang praktis. Untuk setiap proyek, sertakan:
-            *   `title`: Judul proyek yang menarik.
-            *   `description`: Deskripsi singkat proyek, apa yang harus dilakukan, dan keterampilan apa yang akan ditunjukkan.
-            *   `difficulty`: Tingkat kesulitan (Pemula, Menengah, Mahir).
-            *   `estimated_time`: Estimasi waktu pengerjaan (misalnya, "15 jam", "2 minggu").
+            *   \`title\`: Judul proyek yang menarik.
+            *   \`description\`: Deskripsi singkat proyek, apa yang harus dilakukan, dan keterampilan apa yang akan ditunjukkan.
+            *   \`difficulty\`: Tingkat kesulitan (Pemula, Menengah, Mahir).
+            *   \`estimated_time\`: Estimasi waktu pengerjaan (misalnya, "15 jam", "2 minggu").
 
         Pastikan semua nama skill, nama kursus, dan penyedia akurat dan relevan. Hindari informasi yang terlalu umum.
 
         Format output HARUS JSON dengan skema berikut. Pastikan JSON ini valid:
-        ```json
+        \`\`\`json
         {
-          "foundation_skills": ["skill 1", "skill 2", "contoh skill lain"],
-          "advanced_skills": ["skill 3", "skill 4", "contoh skill lanjutan"],
+          "foundation_skills": ["Skill Fondasi 1", "Skill Fondasi 2"],
+          "advanced_skills": ["Skill Lanjutan 1", "Skill Lanjutan 2"],
           "course_recommendations": [
             {
-              "skill_related": "Nama Skill Terkait",
-              "course_name": "Nama Lengkap Kursus",
-              "provider": "Nama Penyedia (misal: Coursera, Udemy)",
-              "link": "https://contoh.link/kursusvalid?ref=skillsyncid"
+              "skill_related": "Skill yang Relevan dengan Kursus",
+              "course_name": "Nama Detail Kursus",
+              "provider": "Penyedia Kursus (contoh: Coursera)",
+              "link": "https://contoh.kursus.com/path?ref=skillsyncid"
             }
           ],
           "portfolio_projects": [
             {
-              "title": "Judul Proyek Portofolio",
-              "description": "Deskripsi detail mengenai proyek portofolio ini.",
-              "difficulty": "Menengah (atau Pemula/Mahir)",
-              "estimated_time": "Contoh: 20-30 jam"
+              "title": "Judul Proyek Keren",
+              "description": "Deskripsi lengkap dan jelas tentang proyek ini.",
+              "difficulty": "Menengah",
+              "estimated_time": "Sekitar 20 jam"
             }
           ]
         }
-        ```
+        \`\`\`
 
         Contoh untuk 'Data Scientist':
         {
@@ -94,39 +93,66 @@ async function generateRoadmap(targetCareer) {
         Sekarang, hasilkan peta jalan untuk: "${targetCareer}".
     `;
 
-    // Langkah 3: Placeholder untuk API Call (akan diisi di langkah selanjutnya)
-    console.log("Prompt yang akan dikirim ke Gemini API:", prompt);
+    console.log("Prompt yang akan dikirim ke Gemini API (potongan):", prompt.substring(0, 500) + "...");
+    console.log(`Attempting to call Gemini API for target career: ${targetCareer}`);
 
     try {
         // BAGIAN UNTUK MELAKUKAN FETCH KE GEMINI API
         // =============================================
-        // const response = await fetch(GEMINI_API_ENDPOINT + '?key=' + GEMINI_API_KEY, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         contents: [{ parts: [{ text: prompt }] }],
-        //         // generationConfig: { // Opsional, sesuaikan jika perlu
-        //         //    responseMimeType: "application/json", // Penting!
-        //         // }
-        //     }),
-        // });
+        // Pastikan GEMINI_API_KEY dan GEMINI_API_ENDPOINT sudah terisi dengan benar di atas file ini.
+        if (GEMINI_API_KEY === 'MASUKKAN_API_KEY_ANDA_DI_SINI' || GEMINI_API_ENDPOINT === 'MASUKKAN_ENDPOINT_GEMINI_API_ANDA_DI_SINI') {
+            console.error("API Key atau Endpoint Gemini belum diatur. Silakan perbarui di js/generateRoadmap.js");
+            throw new Error("API Key atau Endpoint Gemini belum dikonfigurasi.");
+        }
 
-        // if (!response.ok) {
-        //     const errorBody = await response.text();
-        //     throw new Error(`API call failed with status ${response.status}: ${errorBody}`);
-        // }
+        console.log(`Sending request to Gemini API Endpoint: ${GEMINI_API_ENDPOINT}`);
+        const response = await fetch(`${GEMINI_API_ENDPOINT}?key=${GEMINI_API_KEY}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }],
+                // generationConfig: { // Opsional, sesuaikan jika perlu.
+                //    // responseMimeType: "application/json", // Aktifkan jika Anda ingin meminta JSON secara eksplisit dan model mendukungnya.
+                // }
+            }),
+        });
 
-        // // Gemini API mungkin membungkus JSON dalam struktur tertentu, sesuaikan parsingnya
-        // const data = await response.json();
-        // // Contoh jika JSON ada di data.candidates[0].content.parts[0].text
-        // const roadmapString = data.candidates[0].content.parts[0].text;
-        // const roadmap = JSON.parse(roadmapString);
-        // return roadmap;
+        if (!response.ok) {
+            const errorBody = await response.text();
+            console.error('API Error Body:', errorBody);
+            throw new Error(`API call failed with status ${response.status}: ${response.statusText}. Detail: ${errorBody}`);
+        }
+
+        const data = await response.json();
+
+        console.log('Full API Response Data:', data);
+
+        if (data.candidates && data.candidates.length > 0 &&
+            data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts.length > 0 &&
+            data.candidates[0].content.parts[0].text) {
+
+            const roadmapString = data.candidates[0].content.parts[0].text;
+            console.log('Roadmap String from API:', roadmapString);
+
+            try {
+                const roadmap = JSON.parse(roadmapString);
+                console.log('Successfully parsed JSON from API:', roadmap);
+                return roadmap;
+            } catch (parseError) {
+                console.error('Failed to parse JSON from API response:', parseError);
+                console.error('Raw string that failed to parse:', roadmapString);
+                throw new Error('AI did not return valid JSON.');
+            }
+        } else {
+            console.error('Unexpected API response structure:', data);
+            throw new Error('Unexpected API response structure. Could not find generated text.');
+        }
         // =============================================
 
-        // --- MENGGUNAKAN DATA DUMMY UNTUK PENGEMBANGAN ---
+        // --- MENGGUNAKAN DATA DUMMY UNTUK PENGEMBANGAN (DIKOMENTARI KARENA API AKTIF) ---
+        /*
         console.warn("Menggunakan data dummy karena API call ke Gemini tidak diaktifkan.");
         const dummyRoadmap = {
             "foundation_skills": [
@@ -175,35 +201,33 @@ async function generateRoadmap(targetCareer) {
         // Simulasikan network delay
         await new Promise(resolve => setTimeout(resolve, 1000));
         return dummyRoadmap;
+        */
         // --- AKHIR DATA DUMMY ---
 
     } catch (error) {
-        console.error("Error in generateRoadmap:", error);
-        // Tambahkan notifikasi ke pengguna di UI jika perlu
-        return null;
+        console.error("Error in generateRoadmap function:", error.message);
+        // Cek apakah errornya karena API Key/Endpoint belum diisi
+        if (error.message.includes("API Key atau Endpoint Gemini belum dikonfigurasi")) {
+             // Tidak perlu return null lagi karena sudah di throw, tapi bisa ditambahkan UI feedback di main.js
+        }
+        return null; // Kembalikan null jika ada error apapun
     }
 }
 
-// Untuk memungkinkan penggunaan di environment Node.js (misalnya untuk testing)
-// dan juga sebagai modul ES di browser.
-// if (typeof module !== 'undefined' && module.exports) {
-//     module.exports = generateRoadmap;
-// } else if (typeof экспорта !== 'undefined') { // Workaround for ES module detection in some environments
-//     экспорта(generateRoadmap); // Fictitious export function for environments that might use it
-// }
-
-// Menggunakan ES module export default
 export default generateRoadmap;
 
-// Contoh penggunaan (bisa di-uncomment untuk testing di console browser):
+// Contoh penggunaan (bisa di-uncomment untuk testing di console browser jika perlu):
 // async function testRoadmap() {
-//     const career = "Digital Marketing Specialist";
-//     console.log(`Generating roadmap for: ${career}`);
+//     const career = "Software Engineer"; // Ganti dengan karier yang ingin diuji
+//     console.log(`Testing generateRoadmap for: ${career}`);
 //     const roadmap = await generateRoadmap(career);
 //     if (roadmap) {
-//         console.log("Roadmap generated:", roadmap);
+//         console.log("Test Roadmap generated successfully:", roadmap);
 //     } else {
-//         console.log("Failed to generate roadmap.");
+//         console.log("Test Failed to generate roadmap.");
 //     }
 // }
+// Panggil testRoadmap jika Anda membuka file ini langsung di browser (dengan API key terisi)
+// atau ingin menguji dari console.
+// Hati-hati jika API Key Anda ada di sini saat melakukan push ke repository publik.
 // testRoadmap();
