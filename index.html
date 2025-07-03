@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSync.id - Rancang Peta Jalan Karier Impian Anda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/heroicons/2.0.18/24/outline/heroicons.min.css" rel="stylesheet">
+    <style>
+        .hero-icon {
+            width: 3rem; /* 48px */
+            height: 3rem; /* 48px */
+            margin-bottom: 1rem; /* 16px */
+        }
+        .course-logo {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+            object-fit: contain;
+        }
+        .accordion-button svg {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button[aria-expanded="true"] svg {
+            transform: rotate(180deg);
+        }
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #6366f1;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-indigo-600" id="logo">SkillSync.id</div>
+            <nav>
+                <button id="loginButton" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-300">Login</button>
+                <button id="backToHomeButton" class="hidden px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition duration-300">Kembali ke Awal</button>
+            </nav>
+        </div>
+    </header>
+
+    <div id="landingPageSection">
+        <main>
+            <section class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white py-20 md:py-32">
+                <div class="container mx-auto px-6 text-center">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                        Rancang Peta Jalan Karier Impian Anda dengan AI.
+                    </h1>
+                    <p class="text-lg md:text-xl mb-10 max-w-2xl mx-auto">
+                        Masih bingung harus mulai dari mana? Dapatkan panduan langkah demi langkah yang dipersonalisasi untuk mencapai tujuan karier Anda.
+                    </p>
+                    <div class="max-w-xl mx-auto">
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <input
+                                type="text"
+                                id="careerGoalInput"
+                                placeholder="Contoh: Data Scientist, UI/UX Designer..."
+                                class="flex-grow p-4 rounded-md text-gray-800 focus:ring-2 focus:ring-pink-400 focus:outline-none"
+                                value="Digital Marketing Manager"
+                            >
+                            <button id="generatePathButton" class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-4 px-8 rounded-md transition duration-300">
+                                Buat Peta Jalan Saya
+                            </button>
+                        </div>
+                        <p id="inputError" class="text-red-300 text-sm mt-2 text-left hidden">Mohon masukkan posisi karier.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-16 md:py-24 bg-white">
+                <div class="container mx-auto px-6">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 md:mb-16 text-gray-800">
+                        Bagaimana SkillSync.id Membantu Anda?
+                    </h2>
+                    <div class="grid md:grid-cols-3 gap-8 md:gap-12 text-center">
+                        <div class="p-8 bg-gray-100 rounded-lg shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="hero-icon mx-auto text-indigo-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243l-1.59-1.59" />
+                            </svg>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-700">Input</h3>
+                            <p class="text-gray-600">Masukkan Posisi Impian Anda.</p>
+                        </div>
+                        <div class="p-8 bg-gray-100 rounded-lg shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="hero-icon mx-auto text-indigo-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-7.5h12c.621 0 1.125-.504 1.125-1.125V9.75c0-.621-.504-1.125-1.125-1.125h-12c-.621 0-1.125.504-1.125 1.125v3.75c0 .621.504 1.125 1.125 1.125z" />
+                            </svg>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-700">Analisis AI</h3>
+                            <p class="text-gray-600">AI Menganalisis Kebutuhan Pasar.</p>
+                        </div>
+                        <div class="p-8 bg-gray-100 rounded-lg shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="hero-icon mx-auto text-indigo-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503-6.998l-4.036-2.691a3.75 3.75 0 00-4.932 0L3.75 9.75M21 9.75l-3.728-2.485a3.75 3.75 0 00-4.932 0L9 9.75m0-3H6.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h11.25c.621 0 1.125-.504 1.125-1.125V7.875c0-.621-.504-1.125-1.125-1.125H15M9 12h6" />
+                            </svg>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-700">Output</h3>
+                            <p class="text-gray-600">Dapatkan Peta Jalan Personal.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="bg-gray-800 text-gray-300 py-12">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-sm mb-4 md:mb-0">&copy; 2023 SkillSync.id. Semua hak cipta dilindungi.</p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="hover:text-indigo-400 transition duration-300">Tentang Kami</a>
+                        <a href="#" class="hover:text-indigo-400 transition duration-300">Kontak</a>
+                        <a href="#" class="hover:text-indigo-400 transition duration-300">Kebijakan Privasi</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div id="loadingSection" class="hidden flex flex-col items-center justify-center min-h-[calc(100vh-80px)] bg-white">
+        <div class="loader"></div>
+        <p class="mt-4 text-lg font-semibold text-indigo-600">AI sedang merancang peta jalan Anda...</p>
+        <p class="text-gray-600">Mohon tunggu sebentar.</p>
+    </div>
+
+    <div id="careerPathSection" class="hidden container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+            <h1 id="careerPathTitle" class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 md:mb-0">
+                Peta Jalan Anda untuk Menjadi: <span class="text-indigo-600">Digital Marketing Manager</span>
+            </h1>
+            <div class="flex space-x-2">
+                <button class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition duration-300 text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block mr-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                    Simpan Peta Jalan
+                </button>
+                <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300 text-sm">
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block mr-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 4.186 2.25 2.25 0 000-4.186zM12.75 10.632c-.09-.543-.186-1.069-.296-1.582a.996.996 0 00-1.858 0c-.11.513-.206 1.039-.296 1.582M15 12.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Bagikan
+                </button>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <div class="bg-white shadow-md rounded-lg">
+                <button class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-gray-700 hover:bg-gray-100 focus:outline-none" aria-expanded="true">
+                    <span>Keterampilan Fondasi</span>
+                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="foundationSkillsContent" class="accordion-content p-5 border-t border-gray-200">
+                    {/* Konten di-render oleh JavaScript */}
+                </div>
+            </div>
+
+            <div class="bg-white shadow-md rounded-lg">
+                <button class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-gray-700 hover:bg-gray-100 focus:outline-none" aria-expanded="false">
+                    <span>Keterampilan Lanjutan & Spesialisasi</span>
+                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="advancedSkillsContent" class="accordion-content hidden p-5 border-t border-gray-200">
+                    {/* Konten di-render oleh JavaScript */}
+                </div>
+            </div>
+
+            <div class="bg-white shadow-md rounded-lg">
+                <button class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-gray-700 hover:bg-gray-100 focus:outline-none" aria-expanded="false">
+                    <span>Rekomendasi Kursus</span>
+                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="courseRecommendationsContent" class="accordion-content hidden p-5 border-t border-gray-200">
+                    {/* Konten di-render oleh JavaScript */}
+                </div>
+            </div>
+
+            <div class="bg-white shadow-md rounded-lg">
+                <button class="accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-gray-700 hover:bg-gray-100 focus:outline-none" aria-expanded="false">
+                    <span>Ide Proyek Portofolio</span>
+                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="portfolioProjectsContent" class="accordion-content hidden p-5 border-t border-gray-200">
+                    {/* Konten di-render oleh JavaScript */}
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12 p-8 bg-indigo-50 rounded-lg text-center">
+            <h3 class="text-2xl font-semibold text-indigo-700 mb-4">Siap Mengambil Langkah Selanjutnya?</h3>
+            <p class="text-gray-600 mb-6">Dapatkan panduan personal dan percepat kemajuan karier Anda dengan bimbingan dari mentor berpengalaman.</p>
+            <button class="px-8 py-3 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 transition duration-300">
+                Cari Mentor
+            </button>
+        </div>
+        <footer class="mt-16 border-t pt-8 pb-4 text-center text-gray-500 text-sm">
+            <p>&copy; 2023 SkillSync.id. Peta jalan ini dihasilkan oleh AI.</p>
+            <div class="mt-2">
+                <a href="#" class="hover:text-indigo-500 mx-2">Tentang Kami</a> |
+                <a href="#" class="hover:text-indigo-500 mx-2">Kontak</a> |
+                <a href="#" class="hover:text-indigo-500 mx-2">Kebijakan Privasi</a>
+            </div>
+        </footer>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
