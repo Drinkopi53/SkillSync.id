@@ -33,27 +33,29 @@ async function generateRoadmap(targetCareer) {
 
         Pastikan semua nama skill, nama kursus, dan penyedia akurat dan relevan. Hindari informasi yang terlalu umum.
 
-        Format output HARUS JSON dengan skema berikut:
+        Format output HARUS JSON dengan skema berikut. Pastikan JSON ini valid:
+        ```json
         {
-          "foundation_skills": ["skill 1", "skill 2", "..."],
-          "advanced_skills": ["skill 3", "skill 4", "..."],
+          "foundation_skills": ["skill 1", "skill 2", "contoh skill lain"],
+          "advanced_skills": ["skill 3", "skill 4", "contoh skill lanjutan"],
           "course_recommendations": [
             {
-              "skill_related": "Nama Skill",
-              "course_name": "Nama Kursus",
-              "provider": "Coursera",
-              "link": "https://contoh.link/kursus?ref=skillsyncid"
+              "skill_related": "Nama Skill Terkait",
+              "course_name": "Nama Lengkap Kursus",
+              "provider": "Nama Penyedia (misal: Coursera, Udemy)",
+              "link": "https://contoh.link/kursusvalid?ref=skillsyncid"
             }
           ],
           "portfolio_projects": [
             {
-              "title": "Judul Proyek",
-              "description": "Deskripsi singkat proyek...",
-              "difficulty": "Menengah",
-              "estimated_time": "20 jam"
+              "title": "Judul Proyek Portofolio",
+              "description": "Deskripsi detail mengenai proyek portofolio ini.",
+              "difficulty": "Menengah (atau Pemula/Mahir)",
+              "estimated_time": "Contoh: 20-30 jam"
             }
           ]
         }
+        ```
 
         Contoh untuk 'Data Scientist':
         {
