@@ -184,14 +184,14 @@ async function generateRoadmap(targetCareer) {
 
 // Untuk memungkinkan penggunaan di environment Node.js (misalnya untuk testing)
 // dan juga sebagai modul ES di browser.
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = generateRoadmap;
-} else if (typeof экспорта !== 'undefined') { // Workaround for ES module detection in some environments
-    экспорта(generateRoadmap); // Fictitious export function for environments that might use it
-}
-// Jika menggunakan ES modules secara native di browser, Anda akan menggunakan:
-// export default generateRoadmap; // atau export { generateRoadmap };
-// Untuk sekarang, kita akan mengandalkan pemanggilan global atau include manual di HTML.
+// if (typeof module !== 'undefined' && module.exports) {
+//     module.exports = generateRoadmap;
+// } else if (typeof экспорта !== 'undefined') { // Workaround for ES module detection in some environments
+//     экспорта(generateRoadmap); // Fictitious export function for environments that might use it
+// }
+
+// Menggunakan ES module export default
+export default generateRoadmap;
 
 // Contoh penggunaan (bisa di-uncomment untuk testing di console browser):
 // async function testRoadmap() {
