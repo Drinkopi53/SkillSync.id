@@ -19,10 +19,10 @@ async function generateRoadmap(targetCareer) {
 
         1.  **Keterampilan Fondasi (foundation_skills)**: Identifikasi 5-7 keterampilan dasar paling krusial yang harus dikuasai.
         2.  **Keterampilan Lanjutan (advanced_skills)**: Identifikasi 5-7 keterampilan lanjutan atau spesialisasi yang relevan.
-        3.  **Rekomendasi Sumber Belajar (learning_resources)**: Berikan 3-5 rekomendasi sumber belajar yang sangat relevan, populer, dan memiliki konten berkualitas untuk beberapa keterampilan kunci (baik fondasi maupun lanjutan). Ini bisa berupa artikel teknis mendalam, tutorial komprehensif di blog atau website edukasi, modul kursus online (jika linknya valid dan langsung ke materi), dokumentasi resmi (misalnya untuk tools atau bahasa pemrograman), video tutorial berkualitas tinggi dari channel terpercaya, atau halaman website komunitas yang aktif dan bermanfaat. Untuk setiap sumber, sertakan:
+        3.  **Rekomendasi Sumber Belajar (learning_resources)**: Berikan 7-15 rekomendasi sumber belajar yang sangat relevan, populer, dan memiliki konten berkualitas untuk beberapa keterampilan kunci (baik fondasi maupun lanjutan). Ini bisa berupa artikel teknis mendalam, tutorial komprehensif, modul kursus online, dokumentasi resmi, publikasi ilmiah (misalnya dari Google Scholar, arXiv), video tutorial berkualitas tinggi, repositori kode, atau forum komunitas yang aktif. Untuk setiap sumber, sertakan:
             *   \`skill_related\`: Nama skill utama yang dibahas atau dapat ditingkatkan oleh sumber belajar ini.
-            *   \`resource_title\`: Judul yang jelas dan deskriptif dari artikel, video, kursus, halaman dokumentasi, atau sumber tersebut.
-            *   \`source_type\`: Jenis sumber (Contoh: "Artikel Blog", "Kursus Online", "Dokumentasi Resmi", "Video Tutorial", "Forum Komunitas", "Panduan Interaktif", "Website Edukasi").
+            *   \`resource_title\`: Judul yang jelas dan deskriptif dari artikel, video, kursus, publikasi, atau sumber tersebut.
+            *   \`source_type\`: Jenis sumber (Contoh: "Artikel Blog", "Kursus Online", "Dokumentasi Resmi", "Publikasi Ilmiah (Google Scholar)", "Artikel Jurnal", "Repositori Penelitian (arXiv)", "Video Tutorial", "Forum Komunitas", "Panduan Interaktif", "Website Edukasi", "Repositori Kode (GitHub)").
             *   \`link\`: URL yang VALID dan LANGSUNG menuju sumber belajar tersebut.
         PENTING UNTUK LINK: Lakukan upaya terbaik Anda (berdasarkan pengetahuan Anda hingga saat ini) untuk memastikan link yang diberikan kemungkinan besar masih AKTIF, relevan dengan judul sumber, dan TIDAK mengarah ke halaman error 'tidak ditemukan' atau konten yang usang. Jika Anda ragu dengan validitas link spesifik ke konten, lebih baik berikan link ke halaman pencarian di platform penyedia dengan judul sumber sebagai query, atau link ke halaman utama platform/website penyedia tersebut. Kualitas dan keberfungsian link adalah prioritas tinggi. Selalu tambahkan parameter query '?ref=skillsyncid' di akhir setiap URL.
         4.  **Ide Proyek Portofolio (portfolio_projects)**: Usulkan 3-4 ide proyek portofolio yang praktis. Untuk setiap proyek, sertakan:
@@ -201,11 +201,11 @@ async function generateRoadmap(targetCareer) {
                     "skill_related": `Dasar ${targetCareer}: Alat Esensial`,
                     "resource_title": `Tutorial Video: Alat Wajib untuk ${targetCareer}`,
                     "source_type": "Video Tutorial",
-                    "link": `https://youtube.com/watch?v=contoh&list=${targetCareer.toLowerCase().replace(/\s+/g, '-')}-tools&ref=skillsyncid`
+                    "link": `https://youtube.com/watch?v=contoh1&list=${targetCareer.toLowerCase().replace(/\s+/g, '-')}-tools&ref=skillsyncid`
                 },
                 {
                     "skill_related": "Pemecahan Masalah Dasar",
-                    "resource_title": "Kursus Online: Teknik Problem Solving",
+                    "resource_title": "Kursus Online: Teknik Problem Solving Fundamental",
                     "source_type": "Kursus Online",
                     "link": "https://platformkursus.com/problem-solving-101?ref=skillsyncid"
                 },
@@ -214,6 +214,54 @@ async function generateRoadmap(targetCareer) {
                     "resource_title": `Dokumentasi Resmi: ${targetCareer} Advanced Techniques`,
                     "source_type": "Dokumentasi Resmi",
                     "link": `https://docs.contoh-teknologi.com/${targetCareer.toLowerCase().replace(/\s+/g, '-')}/advanced?ref=skillsyncid`
+                },
+                {
+                    "skill_related": "Struktur Data & Algoritma",
+                    "resource_title": "Publikasi Ilmiah: Analisis Efisiensi Algoritma X",
+                    "source_type": "Publikasi Ilmiah (Google Scholar)",
+                    "link": "https://scholar.google.com/scholar?q=efisiensi+algoritma+x&ref=skillsyncid"
+                },
+                {
+                    "skill_related": `Dasar ${targetCareer}: Studi Kasus`,
+                    "resource_title": `Studi Kasus Implementasi ${targetCareer} di Industri ABC`,
+                    "source_type": "Artikel Jurnal",
+                    "link": `https://jurnalilmiah.com/artikel/${targetCareer.toLowerCase().replace(/\s+/g, '-')}-studi-kasus?ref=skillsyncid`
+                },
+                {
+                    "skill_related": `Pengembangan ${targetCareer}`,
+                    "resource_title": `Repositori Proyek ${targetCareer} Populer`,
+                    "source_type": "Repositori Kode (GitHub)",
+                    "link": `https://github.com/topics/${targetCareer.toLowerCase().replace(/\s+/g, '-')}-projects?ref=skillsyncid`
+                },
+                {
+                    "skill_related": "Komunitas " + targetCareer,
+                    "resource_title": `Forum Diskusi ${targetCareer} Indonesia`,
+                    "source_type": "Forum Komunitas",
+                    "link": `https://forumdiskusi.id/t/${targetCareer.toLowerCase().replace(/\s+/g, '-')}-indonesia?ref=skillsyncid`
+                },
+                {
+                    "skill_related": `Dasar ${targetCareer}: Alat Bantu C`,
+                    "resource_title": `Panduan Interaktif: Menggunakan Alat C untuk ${targetCareer}`,
+                    "source_type": "Panduan Interaktif",
+                    "link": `https://interactiveguide.com/${targetCareer.toLowerCase().replace(/\s+/g, '-')}/alat-c?ref=skillsyncid`
+                },
+                {
+                    "skill_related": `Tips & Trik ${targetCareer}`,
+                    "resource_title": `Website Edukasi: Kumpulan Tips ${targetCareer}`,
+                    "source_type": "Website Edukasi",
+                    "link": `https://edukasi-karir.com/${targetCareer.toLowerCase().replace(/\s+/g, '-')}/tips?ref=skillsyncid`
+                },
+                 {
+                    "skill_related": `Advanced ${targetCareer}: Tool D`,
+                    "resource_title": `Advanced Tutorial for Tool D in ${targetCareer}`,
+                    "source_type": "Video Tutorial",
+                    "link": `https://youtube.com/watch?v=contoh2&list=${targetCareer.toLowerCase().replace(/\s+/g, '-')}-tool-d&ref=skillsyncid`
+                },
+                {
+                    "skill_related": "Machine Learning dalam " + targetCareer,
+                    "resource_title": "Riset Paper: Aplikasi ML di " + targetCareer,
+                    "source_type": "Repositori Penelitian (arXiv)",
+                    "link": "https://arxiv.org/abs/1234.56789?ref=skillsyncid"
                 }
             ],
             "portfolio_projects": [
