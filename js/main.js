@@ -151,8 +151,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (roadmapData.advanced_skills && advancedSkillsContent) {
             renderAdvancedSkills(roadmapData.advanced_skills);
         }
-        if (roadmapData.course_recommendations && courseRecommendationsContent) {
-            renderCourseRecommendations(roadmapData.course_recommendations);
+        if (roadmapData.learning_resources && courseRecommendationsContent) { // Menggunakan courseRecommendationsContent sebagai container
+            renderLearningResources(roadmapData.learning_resources, courseRecommendationsContent);
         }
         if (roadmapData.portfolio_projects && portfolioProjectsContent) {
             renderPortfolioProjects(roadmapData.portfolio_projects);
@@ -183,43 +183,44 @@ document.addEventListener('DOMContentLoaded', () => {
         advancedSkillsContent.appendChild(ul);
     }
 
-    function renderCourseRecommendations(courses) {
-        if (!courseRecommendationsContent || !courses || courses.length === 0) return;
-        const gridContainer = document.createElement('div');
-        gridContainer.className = 'grid md:grid-cols-2 lg:grid-cols-3 gap-6';
+    function renderLearningResources(resources, containerElement) {
+        if (!containerElement || !resources || resources.length === 0) return;
 
-        courses.forEach(course => {
+        const resourceListContainer = document.createElement('div');
+        resourceListContainer.className = 'space-y-4'; // Menggunakan space-y untuk jarak antar item
+
+        resources.forEach(resource => {
             const card = document.createElement('div');
-            card.className = 'border p-4 rounded-lg bg-gray-50 shadow-sm';
+            card.className = 'p-4 border rounded-lg bg-gray-50 shadow-sm';
 
-            let logoHtml = '';
-            if (course.provider && course.provider.toLowerCase().includes('google')) {
-                logoHtml = `<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/80px-Google_2015_logo.svg.png" alt="Google" class="course-logo">`;
-            } else if (course.provider && course.provider.toLowerCase().includes('coursera')) {
-                logoHtml = `<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Coursera-Logo_600x600.svg/80px-Coursera-Logo_600x600.svg.png" alt="Coursera" class="course-logo">`;
-            } else if (course.provider && course.provider.toLowerCase().includes('udemy')) {
-                logoHtml = `<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Udemy_logo.svg/80px-Udemy_logo.svg.png" alt="Udemy" class="course-logo">`;
-            } else if (course.provider && course.provider.toLowerCase().includes('dicoding')) {
-                logoHtml = `<img src="https://dicoding-web-img.sgp1.cdn.digitaloceanspaces.com/original/commons/new-dicoding-logo.png" alt="Dicoding" class="course-logo">`;
-            } else {
-                // Placeholder logo jika tidak ada atau tidak dikenal
-                logoHtml = `<span class="course-logo bg-gray-300 rounded-full flex items-center justify-center text-xs text-gray-600 font-semibold">${course.provider ? course.provider.substring(0, 3).toUpperCase() : 'CRS'}</span>`;
-            }
+            // Membuat elemen secara programatik untuk keamanan dan fleksibilitas
+            const titleElement = document.createElement('h4');
+            titleElement.className = 'font-semibold text-gray-700 text-lg mb-1';
+            titleElement.textContent = resource.resource_title;
 
-            card.innerHTML = `
-                <div class="flex items-center mb-2">
-                    ${logoHtml}
-                    <h4 class="font-semibold text-gray-700 flex-1">${course.course_name}</h4>
-                </div>
-                <p class="text-sm text-gray-500 mb-1">Keterampilan: ${course.skill_related || 'Tidak spesifik'}</p>
-                <p class="text-sm text-gray-500 mb-3">Penyedia: ${course.provider}</p>
-                <a href="${course.link}" target="_blank" rel="noopener noreferrer" class="inline-block px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 transition duration-300">
-                    Lihat Kursus
-                </a>
-            `;
-            gridContainer.appendChild(card);
+            const typeElement = document.createElement('p');
+            typeElement.className = 'text-xs text-indigo-600 bg-indigo-100 inline-block px-2 py-0.5 rounded-full mb-2 font-medium';
+            typeElement.textContent = resource.source_type;
+
+            const skillElement = document.createElement('p');
+            skillElement.className = 'text-sm text-gray-500 mb-1';
+            skillElement.innerHTML = `Keterampilan Terkait: <span class="font-medium text-gray-600">${resource.skill_related || 'Tidak spesifik'}</span>`;
+
+            const linkElement = document.createElement('a');
+            linkElement.href = resource.link;
+            linkElement.target = '_blank';
+            linkElement.rel = 'noopener noreferrer';
+            linkElement.className = 'inline-block mt-2 px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 transition duration-300';
+            linkElement.textContent = 'Kunjungi Sumber';
+
+            card.appendChild(titleElement);
+            card.appendChild(typeElement);
+            card.appendChild(skillElement);
+            card.appendChild(linkElement);
+
+            resourceListContainer.appendChild(card);
         });
-        courseRecommendationsContent.appendChild(gridContainer);
+        containerElement.appendChild(resourceListContainer);
     }
 
     function renderPortfolioProjects(projects) {

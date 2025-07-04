@@ -19,11 +19,11 @@ async function generateRoadmap(targetCareer) {
 
         1.  **Keterampilan Fondasi (foundation_skills)**: Identifikasi 5-7 keterampilan dasar paling krusial yang harus dikuasai.
         2.  **Keterampilan Lanjutan (advanced_skills)**: Identifikasi 5-7 keterampilan lanjutan atau spesialisasi yang relevan.
-        3.  **Rekomendasi Kursus (course_recommendations)**: Berikan 2-4 rekomendasi kursus yang sangat spesifik untuk beberapa keterampilan kunci (baik fondasi maupun lanjutan). Untuk setiap kursus, sertakan:
-            *   \`skill_related\`: Nama skill yang diajarkan kursus tersebut.
-            *   \`course_name\`: Nama lengkap kursus.
-            *   \`provider\`: Penyedia kursus (misalnya, Coursera, Dicoding, edX, Udemy, freeCodeCamp, dll.).
-            *   \`link\`: URL langsung menuju kursus tersebut. Penting: Tambahkan parameter query '?ref=skillsyncid' di akhir setiap URL.
+        3.  **Rekomendasi Sumber Belajar (learning_resources)**: Berikan 3-5 rekomendasi sumber belajar yang sangat relevan, populer, dan memiliki konten berkualitas untuk beberapa keterampilan kunci (baik fondasi maupun lanjutan). Ini bisa berupa artikel teknis mendalam, tutorial komprehensif di blog atau website edukasi, modul kursus online (jika linknya valid dan langsung ke materi), dokumentasi resmi (misalnya untuk tools atau bahasa pemrograman), video tutorial berkualitas tinggi dari channel terpercaya, atau halaman website komunitas yang aktif dan bermanfaat. Untuk setiap sumber, sertakan:
+            *   \`skill_related\`: Nama skill utama yang dibahas atau dapat ditingkatkan oleh sumber belajar ini.
+            *   \`resource_title\`: Judul yang jelas dan deskriptif dari artikel, video, kursus, halaman dokumentasi, atau sumber tersebut.
+            *   \`source_type\`: Jenis sumber (Contoh: "Artikel Blog", "Kursus Online", "Dokumentasi Resmi", "Video Tutorial", "Forum Komunitas", "Panduan Interaktif", "Website Edukasi").
+            *   \`link\`: URL yang VALID dan LANGSUNG menuju sumber belajar tersebut. Pastikan link ini aktif, relevan, dan mengarah ke konten yang sebenarnya dan substansial. Prioritaskan sumber yang memiliki reputasi baik dan konten yang mendalam. Selalu tambahkan parameter query '?ref=skillsyncid' di akhir setiap URL.
         4.  **Ide Proyek Portofolio (portfolio_projects)**: Usulkan 3-4 ide proyek portofolio yang praktis. Untuk setiap proyek, sertakan:
             *   \`title\`: Judul proyek yang menarik.
             *   \`description\`: Deskripsi singkat proyek, apa yang harus dilakukan, dan keterampilan apa yang akan ditunjukkan.
@@ -37,12 +37,18 @@ async function generateRoadmap(targetCareer) {
         {
           "foundation_skills": ["Skill Fondasi 1", "Skill Fondasi 2"],
           "advanced_skills": ["Skill Lanjutan 1", "Skill Lanjutan 2"],
-          "course_recommendations": [
+          "learning_resources": [
             {
-              "skill_related": "Skill yang Relevan dengan Kursus",
-              "course_name": "Nama Detail Kursus",
-              "provider": "Penyedia Kursus (contoh: Coursera)",
-              "link": "https://contoh.kursus.com/path?ref=skillsyncid"
+              "skill_related": "Contoh: Pemrograman Python Dasar",
+              "resource_title": "Tutorial Python Lengkap untuk Pemula di Situs XYZ",
+              "source_type": "Artikel Blog",
+              "link": "https://xyz.com/artikel/python-pemula?ref=skillsyncid"
+            },
+            {
+              "skill_related": "Contoh: Manajemen Proyek Agile",
+              "resource_title": "Kursus Scrum Fundamental",
+              "source_type": "Kursus Online",
+              "link": "https://platformkursus.com/scrum-fundamental?ref=skillsyncid"
             }
           ],
           "portfolio_projects": [
@@ -60,18 +66,24 @@ async function generateRoadmap(targetCareer) {
         {
           "foundation_skills": ["Python Programming", "Statistics and Probability", "Data Wrangling with Pandas", "Data Visualization with Matplotlib/Seaborn", "SQL Databases", "Basic Machine Learning Concepts"],
           "advanced_skills": ["Deep Learning (TensorFlow/PyTorch)", "Natural Language Processing (NLP)", "Big Data Technologies (Spark, Hadoop)", "Cloud Computing (AWS, GCP, Azure)", "MLOps", "Advanced Statistical Modeling"],
-          "course_recommendations": [
+          "learning_resources": [
             {
               "skill_related": "Python Programming",
-              "course_name": "Python for Everybody Specialization",
-              "provider": "Coursera (University of Michigan)",
+              "resource_title": "Python for Everybody Specialization (Coursera)",
+              "source_type": "Kursus Online",
               "link": "https://www.coursera.org/specializations/python-for-everybody?ref=skillsyncid"
             },
             {
               "skill_related": "Machine Learning",
-              "course_name": "Machine Learning by Andrew Ng",
-              "provider": "Coursera (Stanford University)",
+              "resource_title": "Machine Learning by Andrew Ng (Coursera)",
+              "source_type": "Kursus Online",
               "link": "https://www.coursera.org/learn/machine-learning?ref=skillsyncid"
+            },
+            {
+              "skill_related": "SQL Databases",
+              "resource_title": "SQLBolt - Interactive SQL Tutorial",
+              "source_type": "Panduan Interaktif",
+              "link": "https://sqlbolt.com?ref=skillsyncid"
             }
           ],
           "portfolio_projects": [
@@ -166,31 +178,41 @@ async function generateRoadmap(targetCareer) {
         console.warn("Menggunakan data dummy karena API call ke Gemini tidak diaktifkan.");
         const dummyRoadmap = {
             "foundation_skills": [
-                `Dasar ${targetCareer} 1`,
-                `Dasar ${targetCareer} 2`,
-                "SEO Dasar",
-                "Content Marketing Awal",
-                "Analisis Web Fundamental"
+                `Dasar ${targetCareer}: Konsep Utama`,
+                `Dasar ${targetCareer}: Alat Esensial`,
+                "Pemecahan Masalah Dasar",
+                "Komunikasi Efektif"
             ],
             "advanced_skills": [
-                `Spesialisasi ${targetCareer} 1`,
-                `Spesialisasi ${targetCareer} 2`,
-                "Marketing Automation Lanjutan",
-                "Data Analysis untuk Marketing Expert",
-                "CRO Lanjutan"
+                `Spesialisasi Lanjutan ${targetCareer} A`,
+                `Teknik ${targetCareer} Mendalam B`,
+                "Manajemen Proyek terkait " + targetCareer,
+                "Analisis Data untuk " + targetCareer
             ],
-            "course_recommendations": [
+            "learning_resources": [
                 {
-                    "skill_related": `Dasar ${targetCareer} 1`,
-                    "course_name": `Kursus Lengkap ${targetCareer} untuk Pemula`,
-                    "provider": "Udemy",
-                    "link": `https://www.udemy.com/topic/${targetCareer.toLowerCase().replace(/\s+/g, '-')}/?ref=skillsyncid`
+                    "skill_related": `Dasar ${targetCareer}: Konsep Utama`,
+                    "resource_title": `Pengantar Komprehensif ${targetCareer}`,
+                    "source_type": "Artikel Blog",
+                    "link": `https://contoh.situs.dev/artikel/${targetCareer.toLowerCase().replace(/\s+/g, '-')}-pengantar?ref=skillsyncid`
                 },
                 {
-                    "skill_related": "SEO Dasar",
-                    "course_name": "Google Digital Garage - Fundamentals of Digital Marketing",
-                    "provider": "Google",
-                    "link": "https://learndigital.withgoogle.com/digitalgarage/course/digital-marketing?ref=skillsyncid"
+                    "skill_related": `Dasar ${targetCareer}: Alat Esensial`,
+                    "resource_title": `Tutorial Video: Alat Wajib untuk ${targetCareer}`,
+                    "source_type": "Video Tutorial",
+                    "link": `https://youtube.com/watch?v=contoh&list=${targetCareer.toLowerCase().replace(/\s+/g, '-')}-tools&ref=skillsyncid`
+                },
+                {
+                    "skill_related": "Pemecahan Masalah Dasar",
+                    "resource_title": "Kursus Online: Teknik Problem Solving",
+                    "source_type": "Kursus Online",
+                    "link": "https://platformkursus.com/problem-solving-101?ref=skillsyncid"
+                },
+                {
+                    "skill_related": `Teknik ${targetCareer} Mendalam B`,
+                    "resource_title": `Dokumentasi Resmi: ${targetCareer} Advanced Techniques`,
+                    "source_type": "Dokumentasi Resmi",
+                    "link": `https://docs.contoh-teknologi.com/${targetCareer.toLowerCase().replace(/\s+/g, '-')}/advanced?ref=skillsyncid`
                 }
             ],
             "portfolio_projects": [
