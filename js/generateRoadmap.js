@@ -157,7 +157,11 @@ async function generateRoadmap(targetCareer) {
                 roadmapString = roadmapString.substring(0, roadmapString.length - 3);
             }
             roadmapString = roadmapString.trim();
-            console.log('Cleaned Roadmap String for Parsing:', roadmapString);
+            console.log('Cleaned Roadmap String for Parsing (after markdown removal):', roadmapString);
+
+            // Langkah pembersihan tambahan untuk karakter non-printable/kontrol
+            roadmapString = roadmapString.replace(/[^\x20-\x7E\t\r\n]/g, '');
+            console.log('Roadmap String after deep sanitize:', roadmapString);
 
             try {
                 const roadmap = JSON.parse(roadmapString);
