@@ -29,7 +29,7 @@ SkillSync.id adalah aplikasi web inovatif yang dirancang untuk membantu pengguna
 
 ## Struktur Proyek
 ```
-.   ├── README.md           // File dokumentasi ini
+├── README.md           // File dokumentasi ini
 ├── index.html          // Halaman utama aplikasi
 ├── js/                 // Direktori untuk file JavaScript
 │   ├── main.js         // Logika utama UI, interaksi DOM, dan pembuatan PDF
