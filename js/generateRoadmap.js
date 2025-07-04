@@ -3,7 +3,7 @@
 
 // MASUKKAN API KEY DAN ENDPOINT GEMINI ANDA YANG VALID DAN AMAN DI SINI:
 const GEMINI_API_KEY = 'AIzaSyDet_RXvk9Xb1W67qxe0aoIr_iCst2qOt0';
-const GEMINI_API_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+const GEMINI_API_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
 /**
  * Menghasilkan peta jalan karier menggunakan AI generatif.
