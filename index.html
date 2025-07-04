@@ -7,6 +7,31 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/heroicons/2.0.18/24/outline/heroicons.min.css" rel="stylesheet">
     <style>
+        /* Styling untuk tombol "Simpan Peta Jalan" saat proses loading PDF */
+        .button-loading {
+            position: relative;
+            color: transparent !important; /* Sembunyikan teks asli */
+        }
+        .button-loading::after {
+            content: "";
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 16px; /* Ukuran spinner */
+            height: 16px; /* Ukuran spinner */
+            margin-left: -8px;
+            margin-top: -8px;
+            border: 2px solid #fff; /* Warna spinner */
+            border-top-color: transparent; /* Buat efek berputar */
+            border-radius: 50%;
+            animation: button-spin 0.6s linear infinite;
+        }
+
+        @keyframes button-spin {
+            to { transform: rotate(360deg); }
+        }
+
         .hero-icon {
             width: 3rem; /* 48px */
             height: 3rem; /* 48px */
@@ -44,7 +69,6 @@
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="text-2xl font-bold text-indigo-600" id="logo">SkillSync.id</div>
             <nav>
-                <button id="loginButton" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-300">Login</button>
                 <button id="backToHomeButton" class="hidden px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition duration-300">Kembali ke Awal</button>
             </nav>
         </div>
@@ -135,17 +159,11 @@
                 Peta Jalan Anda untuk Menjadi: <span class="text-indigo-600">Digital Marketing Manager</span>
             </h1>
             <div class="flex space-x-2">
-                <button class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition duration-300 text-sm">
+                <button id="saveRoadmapButton" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition duration-300 text-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block mr-1">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
                     Simpan Peta Jalan
-                </button>
-                <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300 text-sm">
-                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block mr-1">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 4.186 2.25 2.25 0 000-4.186zM12.75 10.632c-.09-.543-.186-1.069-.296-1.582a.996.996 0 00-1.858 0c-.11.513-.206 1.039-.296 1.582M15 12.75a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    Bagikan
                 </button>
             </div>
         </div>
@@ -213,5 +231,7 @@
     </div>
 
     <script type="module" src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoVXM5RdhCRKOk5BWdJCOxSKagD8LQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 </html>

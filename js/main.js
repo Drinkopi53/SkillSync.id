@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginButton = document.getElementById('loginButton');
     const backToHomeButton = document.getElementById('backToHomeButton');
     const logo = document.getElementById('logo');
+    const saveRoadmapButton = document.getElementById('saveRoadmapButton'); // Tombol Simpan Peta Jalan
 
     // Accordion Elements
     const accordionButtons = document.querySelectorAll('.accordion-button');
@@ -340,5 +341,113 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleLearningResourcePageChange(newPage) {
         currentLearningResourcesPage = newPage;
         displayCurrentPageLearningResources();
+    }
+
+    // Event Listener untuk Tombol Simpan Peta Jalan (Unduh PDF)
+    if (saveRoadmapButton) {
+        saveRoadmapButton.addEventListener('click', async () => {
+            if (!careerPathSection || careerPathSection.classList.contains('hidden')) {
+                alert("Tidak ada peta jalan untuk disimpan. Harap buat peta jalan terlebih dahulu.");
+                return;
+            }
+
+            // Ambil judul karier untuk nama file
+            const careerGoalText = careerPathTitleSpan ? careerPathTitleSpan.textContent : "Karier";
+            const filename = `Peta Jalan - ${careerGoalText.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`;
+
+            // Tambahkan kelas loading ke tombol
+            saveRoadmapButton.classList.add('button-loading');
+            saveRoadmapButton.disabled = true;
+            const originalButtonText = saveRoadmapButton.innerHTML; // Simpan teks asli
+             // Sembunyikan ikon SVG sementara jika ada, agar spinner tidak tumpang tindih
+            const svgIcon = saveRoadmapButton.querySelector('svg');
+            if (svgIcon) svgIcon.style.display = 'none';
+
+
+            try {
+                // Pastikan semua accordion terbuka untuk menangkap semua konten
+                // Atau, kita bisa juga meng-clone elemen dan memodifikasinya di memory,
+                // tapi untuk kesederhanaan, kita akan mencoba menangkap apa yang terlihat.
+                // Untuk hasil terbaik, idealnya semua konten yang ingin di-print harus terlihat.
+                // Kita akan men-scroll ke atas halaman sebelum mengambil screenshot.
+                window.scrollTo(0, 0);
+
+                // Beri sedikit waktu agar UI update jika ada perubahan (misal scroll)
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+
+                const { jsPDF } = window.jspdf; // Ambil jsPDF dari global window object
+                const pdf = new jsPDF({
+                    orientation: 'p',
+                    unit: 'pt',
+                    format: 'a4',
+                    putOnlyUsedFonts:true,
+                    floatPrecision: 16 // or "smart"
+                });
+
+                // Targetkan elemen yang berisi seluruh konten roadmap
+                const contentToPrint = document.getElementById('careerPathSection');
+
+                if (!contentToPrint) {
+                    throw new Error("Elemen konten peta jalan tidak ditemukan.");
+                }
+
+                // Menggunakan html2canvas untuk merender elemen ke canvas
+                const canvas = await html2canvas(contentToPrint, {
+                    scale: 2, // Tingkatkan skala untuk kualitas yang lebih baik
+                    useCORS: true, // Jika ada gambar dari domain lain
+                    logging: false, // Matikan logging html2canvas di console
+                     onclone: (documentClone) => {
+                        // Saat mengkloning dokumen, pastikan semua accordion terbuka di klon tersebut
+                        // Ini penting agar konten yang tersembunyi juga ikut tercetak
+                        const clonedCareerPathSection = documentClone.getElementById('careerPathSection');
+                        if (clonedCareerPathSection) {
+                            const clonedAccordionButtons = clonedCareerPathSection.querySelectorAll('.accordion-button');
+                            clonedAccordionButtons.forEach(button => {
+                                button.setAttribute('aria-expanded', 'true');
+                                const content = button.nextElementSibling;
+                                if (content && content.classList.contains('accordion-content')) {
+                                    content.classList.remove('hidden');
+                                }
+                            });
+                            // Juga, jika ada elemen dengan tinggi tetap dan overflow, mungkin perlu disesuaikan
+                            // misalnya, jika ada scroll internal di dalam section.
+                            // Untuk kasus ini, kita asumsikan konten utama tidak memiliki scroll internal yang kompleks.
+                        }
+                    }
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                let heightLeft = pdfHeight;
+                let position = 0;
+
+                pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+                heightLeft -= pdf.internal.pageSize.getHeight();
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - pdfHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+                    heightLeft -= pdf.internal.pageSize.getHeight();
+                }
+
+                pdf.save(filename);
+
+            } catch (error) {
+                console.error("Error saat membuat PDF:", error);
+                alert("Gagal membuat PDF. Silakan coba lagi. Error: " + error.message);
+            } finally {
+                // Kembalikan tombol ke state normal
+                saveRoadmapButton.classList.remove('button-loading');
+                saveRoadmapButton.disabled = false;
+                if (svgIcon) svgIcon.style.display = ''; // Kembalikan ikon
+                // Jika teks asli disimpan, kembalikan. Jika tidak, biarkan saja.
+                // saveRoadmapButton.innerHTML = originalButtonText; // Ini akan menghapus spinner juga, jadi tidak perlu jika class 'button-loading' sudah dihapus.
+            }
+        });
     }
 });
