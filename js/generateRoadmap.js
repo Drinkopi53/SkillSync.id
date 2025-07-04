@@ -23,7 +23,8 @@ async function generateRoadmap(targetCareer) {
             *   \`skill_related\`: Nama skill utama yang dibahas atau dapat ditingkatkan oleh sumber belajar ini.
             *   \`resource_title\`: Judul yang jelas dan deskriptif dari artikel, video, kursus, halaman dokumentasi, atau sumber tersebut.
             *   \`source_type\`: Jenis sumber (Contoh: "Artikel Blog", "Kursus Online", "Dokumentasi Resmi", "Video Tutorial", "Forum Komunitas", "Panduan Interaktif", "Website Edukasi").
-            *   \`link\`: URL yang VALID dan LANGSUNG menuju sumber belajar tersebut. Pastikan link ini aktif, relevan, dan mengarah ke konten yang sebenarnya dan substansial. Prioritaskan sumber yang memiliki reputasi baik dan konten yang mendalam. Selalu tambahkan parameter query '?ref=skillsyncid' di akhir setiap URL.
+            *   \`link\`: URL yang VALID dan LANGSUNG menuju sumber belajar tersebut.
+        PENTING UNTUK LINK: Lakukan upaya terbaik Anda (berdasarkan pengetahuan Anda hingga saat ini) untuk memastikan link yang diberikan kemungkinan besar masih AKTIF, relevan dengan judul sumber, dan TIDAK mengarah ke halaman error 'tidak ditemukan' atau konten yang usang. Jika Anda ragu dengan validitas link spesifik ke konten, lebih baik berikan link ke halaman pencarian di platform penyedia dengan judul sumber sebagai query, atau link ke halaman utama platform/website penyedia tersebut. Kualitas dan keberfungsian link adalah prioritas tinggi. Selalu tambahkan parameter query '?ref=skillsyncid' di akhir setiap URL.
         4.  **Ide Proyek Portofolio (portfolio_projects)**: Usulkan 3-4 ide proyek portofolio yang praktis. Untuk setiap proyek, sertakan:
             *   \`title\`: Judul proyek yang menarik.
             *   \`description\`: Deskripsi singkat proyek, apa yang harus dilakukan, dan keterampilan apa yang akan ditunjukkan.
