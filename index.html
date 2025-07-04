@@ -32,6 +32,38 @@
             to { transform: rotate(360deg); }
         }
 
+        /* Styles for PDF content */
+        .pdf-container {
+            font-family: Arial, sans-serif;
+            color: #333;
+            padding: 20px; /* Sesuaikan dengan margin di jsPDF jika perlu */
+            background-color: #fff; /* Pastikan background putih untuk html2canvas */
+            width: 595px; /* Lebar A4 dalam pt (approx, jspdf akan skala) */
+        }
+        .pdf-container h1 {
+            font-size: 20px;
+            color: #1a237e; /* Warna gelap biru seperti indigo */
+            border-bottom: 2px solid #3949ab;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        .pdf-container h2 {
+            font-size: 16px;
+            color: #283593; /* Sedikit lebih terang dari h1 */
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .pdf-container ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding-left: 0;
+        }
+        .pdf-container li {
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 5px;
+        }
+
         .hero-icon {
             width: 3rem; /* 48px */
             height: 3rem; /* 48px */
