@@ -377,7 +377,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
                 const { jsPDF } = window.jspdf; // Ambil jsPDF dari global window object
-                const pdf = new jsPDF({
+                const pdf = new jsPDF({ // Ini sudah benar menggunakan window.jspdf.jsPDF secara implisit
                     orientation: 'p',
                     unit: 'pt',
                     format: 'a4',
@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 // Menggunakan html2canvas untuk merender elemen ke canvas
-                const canvas = await html2canvas(contentToPrint, {
+                const canvas = await window.html2canvas(contentToPrint, { // Menggunakan window.html2canvas
                     scale: 2, // Tingkatkan skala untuk kualitas yang lebih baik
                     useCORS: true, // Jika ada gambar dari domain lain
                     logging: false, // Matikan logging html2canvas di console
