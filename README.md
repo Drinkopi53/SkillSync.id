@@ -20,7 +20,7 @@ SkillSync.id adalah aplikasi web inovatif yang dirancang untuk membantu pengguna
     -   CSS3 (dengan TailwindCSS untuk styling cepat dan responsif)
     -   JavaScript (ES6 Modules)
 -   **AI Generatif**:
-    -   Google Gemini API (model `gemini-1.5-flash`)
+    -   Google Gemini API (model `gemini-2.5-flash`)
 -   **Pembuatan PDF (Sisi Klien)**:
     -   jsPDF (https://github.com/parallax/jsPDF)
     -   html2canvas (https://html2canvas.hertzen.com/)
