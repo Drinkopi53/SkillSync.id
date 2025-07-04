@@ -28,6 +28,7 @@ SkillSync.id adalah aplikasi web inovatif yang dirancang untuk membantu pengguna
     -   Heroicons (untuk ikon SVG)
 
 ## Struktur Proyek
+```
 .   ├── README.md           // File dokumentasi ini
 ├── index.html          // Halaman utama aplikasi
 ├── js/                 // Direktori untuk file JavaScript
@@ -36,6 +37,7 @@ SkillSync.id adalah aplikasi web inovatif yang dirancang untuk membantu pengguna
 ├── node_modules/       // Dependensi (jika ada, untuk pengembangan lokal)
 ├── package.json        // Informasi proyek dan dependensi (jika ada)
 └── package-lock.json   // Versi pasti dari dependensi (jika ada)
+```
 
 Catatan: `node_modules`, `package.json`, dan `package-lock.json` mungkin ada jika proyek diinisialisasi dengan npm/yarn, tetapi untuk proyek frontend murni seperti ini, mereka tidak selalu esensial jika semua library dimuat via CDN.
 
