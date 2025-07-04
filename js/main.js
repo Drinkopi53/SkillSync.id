@@ -2,12 +2,12 @@
 
 import generateRoadmap from './generateRoadmap.js';
 
-// Variabel untuk Pagination Sumber Belajar
-let allLearningResources = [];
-let currentLearningResourcesPage = 1;
-const learningResourcesPerPage = 5; // Tampilkan 5 item per halaman
+window.addEventListener('DOMContentLoaded', () => {
+    // Variabel untuk Pagination Sumber Belajar
+    let allLearningResources = [];
+    let currentLearningResourcesPage = 1;
+    const learningResourcesPerPage = 5; // Tampilkan 5 item per halaman
 
-document.addEventListener('DOMContentLoaded', () => {
     // Referensi Elemen
     const landingPageSection = document.getElementById('landingPageSection');
     const loadingSection = document.getElementById('loadingSection');
