@@ -25,10 +25,10 @@ async function generateRoadmap(targetCareer) {
             *   \`source_type\`: Jenis sumber (Contoh: "Artikel Blog", "Kursus Online", "Dokumentasi Resmi", "Publikasi Ilmiah (Google Scholar)", "Artikel Jurnal", "Repositori Penelitian (arXiv)", "Video Tutorial", "Forum Komunitas", "Panduan Interaktif", "Website Edukasi", "Repositori Kode (GitHub)").
             *   \`link\`: URL yang VALID dan LANGSUNG menuju sumber belajar tersebut.
         PENTING UNTUK LINK: Lakukan upaya terbaik Anda (berdasarkan pengetahuan Anda hingga saat ini) untuk memastikan link yang diberikan kemungkinan besar masih AKTIF, relevan dengan judul sumber, dan TIDAK mengarah ke halaman error 'tidak ditemukan' atau konten yang usang. Jika Anda ragu dengan validitas link spesifik ke konten, lebih baik berikan link ke halaman pencarian di platform penyedia dengan judul sumber sebagai query, atau link ke halaman utama platform/website penyedia tersebut. Kualitas dan keberfungsian link adalah prioritas tinggi. Selalu tambahkan parameter query '?ref=skillsyncid' di akhir setiap URL.
-        4.  **Ide Proyek Portofolio (portfolio_projects)**: Usulkan 3-4 ide proyek portofolio yang praktis. Untuk setiap proyek, sertakan:
-            *   \`title\`: Judul proyek yang menarik.
-            *   \`description\`: Deskripsi singkat proyek, apa yang harus dilakukan, dan keterampilan apa yang akan ditunjukkan.
-            *   \`difficulty\`: Tingkat kesulitan (Pemula, Menengah, Mahir).
+        4.  **Ide Proyek Portofolio (portfolio_projects)**: Usulkan 7-10 ide proyek portofolio yang praktis dan beragam, dari yang sederhana hingga yang lebih menantang, yang relevan dengan "${targetCareer}". Untuk setiap proyek, sertakan:
+            *   \`title\`: Judul proyek yang menarik dan deskriptif.
+            *   \`description\`: Deskripsi singkat proyek (2-3 kalimat), apa yang harus dilakukan, dan keterampilan utama apa yang akan ditunjukkan atau dipelajari.
+            *   \`difficulty\`: Tingkat kesulitan (Contoh: "Pemula", "Menengah", "Mahir").
             *   \`estimated_time\`: Estimasi waktu pengerjaan (misalnya, "15 jam", "2 minggu").
 
         Pastikan semua nama skill, nama kursus, dan penyedia akurat dan relevan. Hindari informasi yang terlalu umum.
@@ -266,16 +266,46 @@ async function generateRoadmap(targetCareer) {
             ],
             "portfolio_projects": [
                 {
-                    "title": `Proyek Portofolio ${targetCareer} 1`,
-                    "description": `Buat strategi ${targetCareer.toLowerCase()} komprehensif untuk sebuah startup fiktif di industri X. Fokus pada riset pasar, persona target, dan channel utama.`,
+                    "title": `Proyek Dasar: Analisis Kompetitor untuk ${targetCareer}`,
+                    "description": `Lakukan analisis mendalam terhadap 2-3 kompetitor utama di bidang ${targetCareer}. Identifikasi kekuatan, kelemahan, strategi pemasaran, dan target audiens mereka. Sajikan dalam laporan ringkas.`,
+                    "difficulty": "Pemula",
+                    "estimated_time": "10 jam"
+                },
+                {
+                    "title": `Proyek Aplikasi Sederhana: Kalkulator ROI ${targetCareer}`,
+                    "description": `Buat aplikasi web atau spreadsheet canggih yang menghitung Return on Investment (ROI) untuk berbagai skenario kampanye ${targetCareer}. Fokus pada input yang relevan dan output yang mudah dipahami.`,
+                    "difficulty": "Menengah",
+                    "estimated_time": "20 jam"
+                },
+                {
+                    "title": `Studi Kasus Mendalam: Strategi ${targetCareer} untuk Brand X`,
+                    "description": `Pilih sebuah brand (nyata atau fiktif) dan kembangkan strategi ${targetCareer} komprehensif selama 6 bulan, termasuk tujuan, KPI, target audiens, pilihan channel, dan estimasi budget.`,
+                    "difficulty": "Menengah",
+                    "estimated_time": "30 jam"
+                },
+                {
+                    "title": `Pengembangan Konten: Blog Series tentang Tren ${targetCareer}`,
+                    "description": `Tulis 3-5 artikel blog yang saling terkait mengenai tren terkini di bidang ${targetCareer}. Fokus pada riset yang baik, penulisan yang menarik, dan optimasi SEO dasar.`,
+                    "difficulty": "Pemula",
+                    "estimated_time": "15 jam"
+                },
+                {
+                    "title": `Otomatisasi Tugas: Script untuk Laporan ${targetCareer}`,
+                    "description": `Buat script (misalnya Python) untuk mengotomatisasi pengumpulan data dan pembuatan laporan mingguan/bulanan untuk metrik kunci ${targetCareer}.`,
+                    "difficulty": "Mahir",
+                    "estimated_time": "35 jam"
+                },
+                {
+                    "title": `Visualisasi Data: Dashboard Performa ${targetCareer}`,
+                    "description": `Gunakan tools seperti Google Data Studio atau Tableau untuk membuat dashboard interaktif yang memvisualisasikan data performa kampanye ${targetCareer} dari dataset contoh.`,
                     "difficulty": "Menengah",
                     "estimated_time": "25 jam"
                 },
                 {
-                    "title": `Analisis Kampanye ${targetCareer}`,
-                    "description": "Analisis data kampanye marketing (gunakan dataset publik atau buat sendiri), identifikasi KPI, visualisasikan performa, dan berikan rekomendasi optimasi.",
-                    "difficulty": "Menengah",
-                    "estimated_time": "20 jam"
+                    "title": `Riset Pengguna: Survei Kebutuhan untuk Layanan ${targetCareer}`,
+                    "description": `Rancang dan distribusikan (secara simulasi) survei untuk memahami kebutuhan dan pain points target audiens terkait layanan di bidang ${targetCareer}. Analisis hasilnya.`,
+                    "difficulty": "Pemula",
+                    "estimated_time": "12 jam"
                 }
             ]
         };
