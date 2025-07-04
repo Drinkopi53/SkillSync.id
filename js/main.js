@@ -7,6 +7,21 @@ let allLearningResources = [];
 let currentLearningResourcesPage = 1;
 const learningResourcesPerPage = 5; // Tampilkan 5 item per halaman
 
+const sourceTypeIcons = {
+    "Artikel Blog": "📄",
+    "Kursus Online": "🎓",
+    "Video Tutorial": "🎬",
+    "Dokumentasi Resmi": "📖", // Mengganti ikon Devanagari dengan yang lebih umum
+    "Publikasi Ilmiah (Google Scholar)": "🔬",
+    "Artikel Jurnal": "🔬",
+    "Repositori Penelitian (arXiv)": "🔬",
+    "Repositori Kode (GitHub)": "💻",
+    "Forum Komunitas": "💬",
+    "Panduan Interaktif": "🎮",
+    "Website Edukasi": "🌐",
+    "default": "🔗" // Ikon default jika tipe tidak ada di map
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     // Referensi Elemen
     const landingPageSection = document.getElementById('landingPageSection');
@@ -43,8 +58,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         inputError.classList.add('hidden');
 
-        // Bersihkan konten sebelumnya
+        // Bersihkan konten roadmap & pagination sebelumnya
         clearRoadmapContents();
+
+        // Cek Cache
+        const cacheKey = `roadmap_${goal.toLowerCase().replace(/\s+/g, '_')}`;
+        const cachedData = sessionStorage.getItem(cacheKey);
+
+        if (cachedData) {
+            console.log("Data ditemukan di sessionStorage cache:", cacheKey);
+            const roadmapData = JSON.parse(cachedData);
+
+            if (careerPathTitleSpan) careerPathTitleSpan.textContent = goal; // Update judul
+
+            allLearningResources = roadmapData.learning_resources || [];
+            currentLearningResourcesPage = 1;
+            renderAllRoadmapContent(roadmapData); // Render konten dari cache
+
+            // Langsung tampilkan hasil, tidak perlu loading
+            if (landingPageSection) landingPageSection.classList.add('hidden');
+            if (loadingSection) loadingSection.classList.add('hidden'); // Pastikan loading tidak tampil
+            if (careerPathSection) careerPathSection.classList.remove('hidden');
+            if (loginButton) loginButton.classList.add('hidden');
+            if (backToHomeButton) backToHomeButton.classList.remove('hidden');
+            return; // Hentikan eksekusi lebih lanjut jika data dari cache
+        }
+
+        // Jika tidak ada di cache, lanjutkan dengan API call
+        console.log("Data tidak ditemukan di cache, memanggil API untuk:", goal);
 
         // Update judul peta jalan
         if (careerPathTitleSpan) {
@@ -58,11 +99,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loginButton) loginButton.classList.add('hidden');
         if (backToHomeButton) backToHomeButton.classList.remove('hidden');
 
-        console.log(`Memanggil generateRoadmap untuk: ${goal}`);
         try {
             const roadmapData = await generateRoadmap(goal);
 
             if (roadmapData) {
+                // Simpan ke cache sebelum render
+                sessionStorage.setItem(cacheKey, JSON.stringify(roadmapData));
+                console.log("Data dari API disimpan ke sessionStorage cache:", cacheKey);
+
                 allLearningResources = roadmapData.learning_resources || [];
                 currentLearningResourcesPage = 1;
 
@@ -226,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
         containerElement.innerHTML = ''; // Bersihkan kontainer sebelum render ulang
 
         if (!allItems || allItems.length === 0) {
-            containerElement.innerHTML = '<p class="text-gray-500">Tidak ada sumber belajar yang ditemukan.</p>';
+            containerElement.innerHTML = '<p class="text-gray-500 text-center py-4">AI kami belum menemukan sumber belajar yang relevan untuk karier ini. Coba dengan kata kunci atau karier yang sedikit berbeda.</p>';
             return;
         }
 
@@ -246,25 +290,51 @@ document.addEventListener('DOMContentLoaded', () => {
             titleElement.className = 'font-semibold text-gray-700 text-lg mb-1';
             titleElement.textContent = resource.resource_title;
 
+            const typeIcon = sourceTypeIcons[resource.source_type] || sourceTypeIcons["default"];
             const typeElement = document.createElement('p');
             typeElement.className = 'text-xs text-indigo-600 bg-indigo-100 inline-block px-2 py-0.5 rounded-full mb-2 font-medium';
-            typeElement.textContent = resource.source_type;
+            typeElement.textContent = `${typeIcon} ${resource.source_type}`;
 
             const skillElement = document.createElement('p');
-            skillElement.className = 'text-sm text-gray-500 mb-1';
+            skillElement.className = 'text-sm text-gray-500 mb-2'; // Tambah margin bottom
             skillElement.innerHTML = `Keterampilan Terkait: <span class="font-medium text-gray-600">${resource.skill_related || 'Tidak spesifik'}</span>`;
+
+            const actionsContainer = document.createElement('div');
+            actionsContainer.className = 'mt-3 flex items-center space-x-2';
 
             const linkElement = document.createElement('a');
             linkElement.href = resource.link;
             linkElement.target = '_blank';
             linkElement.rel = 'noopener noreferrer';
-            linkElement.className = 'inline-block mt-2 px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 transition duration-300';
-            linkElement.textContent = 'Kunjungi Sumber';
+            linkElement.className = 'inline-flex items-center px-3 py-1.5 bg-indigo-600 text-white text-xs font-medium rounded-md hover:bg-indigo-700 transition duration-300';
+            linkElement.innerHTML = 'Kunjungi Sumber <span class="ml-1">↗</span>';
+
+            const copyButton = document.createElement('button');
+            copyButton.className = 'inline-flex items-center px-3 py-1.5 bg-gray-200 text-gray-700 text-xs font-medium rounded-md hover:bg-gray-300 transition duration-300';
+            copyButton.innerHTML = 'Salin Link <span class="ml-1">📋</span>';
+            copyButton.addEventListener('click', (e) => {
+                e.stopPropagation(); // Hindari trigger event lain jika ada
+                navigator.clipboard.writeText(resource.link).then(() => {
+                    const originalText = copyButton.innerHTML;
+                    copyButton.innerHTML = 'Disalin! <span class="ml-1">✅</span>';
+                    copyButton.disabled = true;
+                    setTimeout(() => {
+                        copyButton.innerHTML = originalText;
+                        copyButton.disabled = false;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Gagal menyalin link:', err);
+                    // Mungkin tambahkan alert atau feedback error lain di sini
+                });
+            });
+
+            actionsContainer.appendChild(linkElement);
+            actionsContainer.appendChild(copyButton);
 
             card.appendChild(titleElement);
             card.appendChild(typeElement);
             card.appendChild(skillElement);
-            card.appendChild(linkElement);
+            card.appendChild(actionsContainer); // Tambahkan container tombol ke kartu
 
             resourceListContainer.appendChild(card);
         });
