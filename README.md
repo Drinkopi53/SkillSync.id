@@ -1,5 +1,8 @@
 # SkillSync.id
 
+![indomie](https://github.com/user-attachments/assets/9a8b63ce-9d7a-4770-9f85-a928c79bd28d)
+
+
 ## Deskripsi Proyek
 SkillSync.id adalah aplikasi web inovatif yang dirancang untuk membantu pengguna merancang peta jalan karier impian mereka dengan bantuan kecerdasan buatan (AI). Pengguna dapat memasukkan posisi karier yang diinginkan, dan aplikasi akan menghasilkan panduan langkah demi langkah yang dipersonalisasi, termasuk keterampilan fondasi, keterampilan lanjutan, rekomendasi sumber belajar, dan ide proyek portofolio. Aplikasi ini juga memungkinkan pengguna untuk menyimpan peta jalan yang dihasilkan dalam format PDF.
 
