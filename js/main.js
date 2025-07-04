@@ -2,12 +2,13 @@
 
 import generateRoadmap from './generateRoadmap.js';
 
-// Variabel untuk Pagination Sumber Belajar
-let allLearningResources = [];
-let currentLearningResourcesPage = 1;
-const learningResourcesPerPage = 5; // Tampilkan 5 item per halaman
+window.addEventListener('DOMContentLoaded', () => {
+    // Variabel untuk Pagination Sumber Belajar dan data Peta Jalan
+    let allLearningResources = [];
+    let currentLearningResourcesPage = 1;
+    const learningResourcesPerPage = 5; // Tampilkan 5 item per halaman
+    let currentRoadmapData = null; // Variabel untuk menyimpan data peta jalan saat ini
 
-document.addEventListener('DOMContentLoaded', () => {
     // Referensi Elemen
     const landingPageSection = document.getElementById('landingPageSection');
     const loadingSection = document.getElementById('loadingSection');
@@ -28,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginButton = document.getElementById('loginButton');
     const backToHomeButton = document.getElementById('backToHomeButton');
     const logo = document.getElementById('logo');
+    const saveRoadmapButton = document.getElementById('saveRoadmapButton'); // Tombol Simpan Peta Jalan
 
     // Accordion Elements
     const accordionButtons = document.querySelectorAll('.accordion-button');
@@ -60,13 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log(`Memanggil generateRoadmap untuk: ${goal}`);
         try {
-            const roadmapData = await generateRoadmap(goal);
+            // const roadmapData = await generateRoadmap(goal); // Deklarasi lama
+            currentRoadmapData = await generateRoadmap(goal); // Simpan ke variabel scope lebih luas
 
-            if (roadmapData) {
-                allLearningResources = roadmapData.learning_resources || [];
+            if (currentRoadmapData) {
+                allLearningResources = currentRoadmapData.learning_resources || [];
                 currentLearningResourcesPage = 1;
 
-                renderAllRoadmapContent(roadmapData); // Ini akan memanggil displayCurrentPageLearningResources secara internal
+                renderAllRoadmapContent(currentRoadmapData); // Ini akan memanggil displayCurrentPageLearningResources secara internal
 
                 if (loadingSection) loadingSection.classList.add('hidden');
                 if (careerPathSection) careerPathSection.classList.remove('hidden');
@@ -340,5 +343,156 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleLearningResourcePageChange(newPage) {
         currentLearningResourcesPage = newPage;
         displayCurrentPageLearningResources();
+    }
+
+    function prepareContentForPdf(careerTitle, foundationSkills, advancedSkills) {
+        const container = document.createElement('div');
+        container.className = 'pdf-container'; // Gunakan kelas CSS yang didefinisikan di index.html
+        // Style untuk menyembunyikan dari viewport tapi tetap bisa dirender oleh html2canvas
+        container.style.position = 'absolute';
+        container.style.left = '-9999px';
+        container.style.top = '0px';
+        container.style.zIndex = '-1'; // Pastikan tidak mengganggu interaksi pengguna
+        // container.style.width = '595pt'; // A4 width in points, bisa disesuaikan atau biarkan html2canvas handle scaling
+
+        // Judul Utama PDF
+        const mainTitle = document.createElement('h1');
+        mainTitle.textContent = `Peta Jalan Karir untuk: ${careerTitle}`;
+        container.appendChild(mainTitle);
+
+        // Bagian Keterampilan Fondasi
+        if (foundationSkills && foundationSkills.length > 0) {
+            const foundationTitle = document.createElement('h2');
+            foundationTitle.textContent = 'Keterampilan Fondasi';
+            container.appendChild(foundationTitle);
+
+            const ulFoundation = document.createElement('ul');
+            foundationSkills.forEach(skill => {
+                const li = document.createElement('li');
+                li.textContent = skill;
+                ulFoundation.appendChild(li);
+            });
+            container.appendChild(ulFoundation);
+        }
+
+        // Bagian Keterampilan Lanjutan & Spesialisasi
+        if (advancedSkills && advancedSkills.length > 0) {
+            const advancedTitle = document.createElement('h2');
+            advancedTitle.textContent = 'Keterampilan Lanjutan & Spesialisasi';
+            container.appendChild(advancedTitle);
+
+            const ulAdvanced = document.createElement('ul');
+            advancedSkills.forEach(skill => {
+                const li = document.createElement('li');
+                li.textContent = skill;
+                ulAdvanced.appendChild(li);
+            });
+            container.appendChild(ulAdvanced);
+        }
+
+        document.body.appendChild(container); // Tambahkan ke body agar html2canvas bisa mengaksesnya
+        return container;
+    }
+
+    // Event Listener untuk Tombol Simpan Peta Jalan (Unduh PDF)
+    if (saveRoadmapButton) {
+        saveRoadmapButton.addEventListener('click', async () => {
+            // Menggunakan currentRoadmapData yang sudah disimpan
+            if (!currentRoadmapData || !careerPathSection || careerPathSection.classList.contains('hidden')) {
+                alert("Tidak ada peta jalan untuk disimpan. Harap buat peta jalan terlebih dahulu.");
+                return;
+            }
+
+            // Ambil judul karier untuk nama file
+            const careerGoalText = careerPathTitleSpan ? careerPathTitleSpan.textContent : "Karier";
+            const filename = `Peta Jalan - ${careerGoalText.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`;
+
+            // Tambahkan kelas loading ke tombol
+            saveRoadmapButton.classList.add('button-loading');
+            saveRoadmapButton.disabled = true;
+            // Sembunyikan ikon SVG sementara jika ada, agar spinner tidak tumpang tindih
+            const svgIcon = saveRoadmapButton.querySelector('svg');
+            if (svgIcon) svgIcon.style.display = 'none';
+
+            let pdfContentElement = null; // Variabel untuk menyimpan elemen konten PDF sementara
+
+            try {
+                // Ambil judul karier dari currentRoadmapData jika tersedia, atau dari DOM
+                const titleForPdf = currentRoadmapData.career_goal_title || (careerPathTitleSpan ? careerPathTitleSpan.textContent : "Karier");
+
+                // Siapkan konten khusus untuk PDF
+                pdfContentElement = prepareContentForPdf(
+                    titleForPdf,
+                    currentRoadmapData.foundation_skills,
+                    currentRoadmapData.advanced_skills
+                );
+
+                if (!pdfContentElement) {
+                    throw new Error("Gagal menyiapkan konten untuk PDF.");
+                }
+
+                // Beri sedikit waktu agar elemen baru sepenuhnya dirender di DOM (meskipun tersembunyi)
+                await new Promise(resolve => setTimeout(resolve, 100));
+
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: 'p',
+                    unit: 'pt',
+                    format: 'a4',
+                    putOnlyUsedFonts: true,
+                    floatPrecision: 16
+                });
+
+                const canvas = await window.html2canvas(pdfContentElement, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff', // Pastikan background putih
+                     onclone: (documentClone) => {
+                        // Tidak perlu lagi membuka accordion karena kita sudah membuat konten terpisah
+                        // Namun, kita bisa memastikan elemen pdf-container di klon memiliki style yang benar jika perlu
+                        const clonedPdfContainer = documentClone.querySelector('.pdf-container');
+                        if (clonedPdfContainer) {
+                            // Contoh: pastikan width-nya diterapkan jika penting untuk rendering html2canvas
+                            // clonedPdfContainer.style.width = '595pt'; // Sesuaikan jika perlu
+                        }
+                    }
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                let heightLeft = pdfHeight;
+                let position = 0;
+
+                pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+                heightLeft -= pdf.internal.pageSize.getHeight();
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - pdfHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+                    heightLeft -= pdf.internal.pageSize.getHeight();
+                }
+
+                pdf.save(filename);
+
+            } catch (error) {
+                console.error("Error saat membuat PDF:", error);
+                alert("Gagal membuat PDF. Silakan coba lagi. Error: " + error.message);
+            } finally {
+                // Kembalikan tombol ke state normal
+                saveRoadmapButton.classList.remove('button-loading');
+                saveRoadmapButton.disabled = false;
+                if (svgIcon) svgIcon.style.display = ''; // Kembalikan ikon
+
+                // Hapus elemen konten PDF sementara dari DOM
+                if (pdfContentElement && pdfContentElement.parentNode) {
+                    pdfContentElement.parentNode.removeChild(pdfContentElement);
+                }
+            }
+        });
     }
 });
