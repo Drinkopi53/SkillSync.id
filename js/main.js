@@ -7,6 +7,9 @@ let allLearningResources = [];
 let currentLearningResourcesPage = 1;
 const learningResourcesPerPage = 5; // Tampilkan 5 item per halaman
 
+// Variabel untuk menyimpan target karier saat ini
+let currentTargetCareer = '';
+
 const sourceTypeIcons = {
     "Artikel Blog": "📄",
     "Kursus Online": "🎓",
@@ -36,9 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Kontainer konten Accordion
     const foundationSkillsContent = document.getElementById('foundationSkillsContent');
     const advancedSkillsContent = document.getElementById('advancedSkillsContent');
-    const courseRecommendationsContent = document.getElementById('courseRecommendationsContent'); // Ini juga kontainer untuk Learning Resources
-    const portfolioProjectsContent = document.getElementById('portfolioProjectsContent');
+    const courseRecommendationsContent = document.getElementById('courseRecommendationsContent');
+    const portfolioProjectsContent = document.getElementById('portfolioProjectsContent'); // Kontainer utama untuk accordion item
+    const portfolioProjectList = document.getElementById('portfolioProjectList'); // Sub-kontainer untuk daftar item proyek
     const learningResourcesPaginationContainer = document.getElementById('learningResourcesPagination');
+    const refreshPortfolioButton = document.getElementById('refreshPortfolioButton');
 
     const loginButton = document.getElementById('loginButton');
     const backToHomeButton = document.getElementById('backToHomeButton');
@@ -86,6 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Jika tidak ada di cache, lanjutkan dengan API call
         console.log("Data tidak ditemukan di cache, memanggil API untuk:", goal);
+
+        currentTargetCareer = goal; // Simpan target karier saat ini
 
         // Update judul peta jalan
         if (careerPathTitleSpan) {
@@ -167,9 +174,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (backToHomeButton) backToHomeButton.classList.add('hidden');
         if (inputError) inputError.classList.add('hidden');
 
-        allLearningResources = []; // Reset data sumber belajar
-        currentLearningResourcesPage = 1; // Reset halaman
-        clearRoadmapContents(); // Termasuk membersihkan pagination
+        allLearningResources = [];
+        currentLearningResourcesPage = 1;
+        currentTargetCareer = ''; // Reset target karier saat ini
+        clearRoadmapContents();
     };
 
     if (backToHomeButton) {
@@ -203,8 +211,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (foundationSkillsContent) foundationSkillsContent.innerHTML = '';
         if (advancedSkillsContent) advancedSkillsContent.innerHTML = '';
         if (courseRecommendationsContent) courseRecommendationsContent.innerHTML = '';
-        if (portfolioProjectsContent) portfolioProjectsContent.innerHTML = '';
-        if (learningResourcesPaginationContainer) learningResourcesPaginationContainer.innerHTML = ''; // Bersihkan pagination
+        // portfolioProjectsContent tidak perlu dibersihkan sepenuhnya karena tombol refresh ada di dalamnya
+        if (portfolioProjectList) portfolioProjectList.innerHTML = ''; // Bersihkan hanya daftar proyek
+        if (learningResourcesPaginationContainer) learningResourcesPaginationContainer.innerHTML = '';
     }
 
     // Fungsi render gabungan
@@ -342,9 +351,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderPortfolioProjects(projects) {
-        if (!portfolioProjectsContent || !projects || projects.length === 0) return;
-        const container = document.createElement('div');
-        container.className = 'space-y-4';
+        if (!portfolioProjectList) return; // Targetkan sub-kontainer
+        portfolioProjectList.innerHTML = ''; // Bersihkan daftar proyek sebelumnya
+
+        if (!projects || projects.length === 0) {
+            portfolioProjectList.innerHTML = '<p class="text-gray-500">Tidak ada ide proyek yang ditemukan.</p>';
+            return;
+        }
+
+        // const container = document.createElement('div'); // Tidak perlu container tambahan jika sudah ada #portfolioProjectList dengan class space-y-4
+        // container.className = 'space-y-4'; // Class ini sudah ada di #portfolioProjectList
 
         projects.forEach(project => {
             const projectItem = document.createElement('div');
@@ -357,10 +373,64 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span>Estimasi Waktu: <span class="font-medium text-gray-700">${project.estimated_time}</span></span>
                 </div>
             `;
-            container.appendChild(projectItem);
+            portfolioProjectList.appendChild(projectItem); // Tambahkan ke sub-kontainer
         });
-        portfolioProjectsContent.appendChild(container);
+        // portfolioProjectsContent.appendChild(container); // Tidak lagi menambahkan container baru
     }
+
+    if (refreshPortfolioButton) {
+        refreshPortfolioButton.addEventListener('click', async () => {
+            if (!currentTargetCareer) {
+                console.log("Tidak ada target karier saat ini untuk me-refresh portofolio.");
+                return;
+            }
+
+            console.log(`Tombol Refresh Portofolio diklik untuk: ${currentTargetCareer}`);
+            // Opsional: Tampilkan spinner/loading kecil
+            if(portfolioProjectList) portfolioProjectList.innerHTML = '<div class="flex justify-center items-center py-4"><div class="loader_small"></div><p class="ml-2 text-sm text-gray-500">Memuat ide baru...</p></div>';
+            // Definisikan .loader_small di CSS jika diperlukan, atau gunakan teks saja.
+            // Untuk sementara, kita akan gunakan teks:
+            // if(portfolioProjectList) portfolioProjectList.innerHTML = '<p class="text-gray-500 text-center py-4">Memuat ide proyek baru...</p>';
+
+
+            const cacheKey = `roadmap_${currentTargetCareer.toLowerCase().replace(/\s+/g, '_')}`;
+            sessionStorage.removeItem(cacheKey);
+            console.log(`Cache untuk ${currentTargetCareer} dihapus, meminta data baru untuk portofolio.`);
+
+            try {
+                const newRoadmapData = await generateRoadmap(currentTargetCareer);
+
+                if (newRoadmapData) {
+                    sessionStorage.setItem(cacheKey, JSON.stringify(newRoadmapData)); // Simpan data lengkap yang baru
+                    console.log("Data baru dari API disimpan kembali ke cache:", cacheKey);
+
+                    if (newRoadmapData.portfolio_projects) {
+                        renderPortfolioProjects(newRoadmapData.portfolio_projects);
+                    } else {
+                         if(portfolioProjectList) portfolioProjectList.innerHTML = '<p class="text-gray-500">Gagal memuat ide proyek baru.</p>';
+                    }
+
+                    // Update data lain di state jika diperlukan, agar konsisten jika user navigasi pagination learning resources
+                    allLearningResources = newRoadmapData.learning_resources || [];
+                    // Tidak perlu render ulang learning resources kecuali jika kita mau,
+                    // tapi state paginationnya mungkin perlu di-reset jika jumlahnya berubah
+                    // Untuk sekarang, biarkan pagination learning resources apa adanya.
+                    // Jika ingin reset:
+                    // currentLearningResourcesPage = 1;
+                    // displayCurrentPageLearningResources();
+
+                } else {
+                    console.error("Gagal mendapatkan data baru setelah refresh portofolio.");
+                    if(portfolioProjectList) portfolioProjectList.innerHTML = '<p class="text-red-500 text-center py-4">Gagal memuat ide proyek baru. Coba lagi.</p>';
+                }
+            } catch (error) {
+                console.error("Error saat me-refresh portofolio:", error);
+                if(portfolioProjectList) portfolioProjectList.innerHTML = '<p class="text-red-500 text-center py-4">Terjadi kesalahan saat memuat ide. Coba lagi.</p>';
+            }
+            // Opsional: Sembunyikan spinner/loading
+        });
+    }
+
 
     function renderPaginationControls(containerElement, totalItems, itemsPerPage, currentPage, pageChangeCallback) {
         if (!containerElement) return;
